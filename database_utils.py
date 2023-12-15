@@ -14,11 +14,14 @@ class DatabaseConnector():
     def list_db_tables(self):
         self.engine.execution_options(isolation_level='AUTOCOMMIT').connect()
         inspector = inspect(self.engine)
-        print(inspector.get_table_names())
+        return inspector.get_table_names()
+
         
         
 # engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
 
-db = DatabaseConnector()
-db.init_db_engine()
-db.list_db_tables()
+# db = DatabaseConnector()
+# db.init_db_engine()
+# db.list_db_tables()
+
+# ['legacy_store_details', 'legacy_users', 'orders_table']
