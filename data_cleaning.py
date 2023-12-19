@@ -1,5 +1,6 @@
 from data_extraction import DataExtractor
 import pandas as pd
+import numpy as np
 
 class DataCleaning():
     def __init__(self):
@@ -46,25 +47,34 @@ class DataCleaning():
             df = pd.DataFrame(item)  # Convert each dictionary to a DataFrame
             df.dropna(axis=1, inplace=True)
             data_frames.append(df)
-
         combined_df = pd.concat(data_frames, ignore_index=True) 
-
-        # if (combined_df.iloc[:, 1].notna().all()):
-        #     combined_df.dropna(axis=1, inplace=True)
-
-        # if (combined_df['card_number'].notna().all()):
-        #     combined_df.dropna(axis=1, inplace=True)
         # Drop rows where 'card_number' is null
-        # combined_df.dropna(subset=['card_number'], inplace=True)
-        # combined_df.dropna(subset=['expiry_date'], inplace=True)
         combined_df = combined_df.dropna(subset=[combined_df.columns[1]])
         combined_df = combined_df.dropna(axis=1, how='all')
         # 
         return combined_df
-          
-# You will need clean the user data, 
-    # look out for NULL values, 
-    # errors with dates, 
-    # incorrectly typed values and rows filled with the wrong information.
+    
+    def clean_store_data(self, df):
+        #drop rows with all null values
+        # df.replace('N/A', np.nan, inplace=True)
+        # columns_to_check = ['address', 'longitude', 'locality']
 
-# DataCleaning().clean_user_data('legacy_users')
+        #check staff_numbers - if not a number drop row
+        df['staff_numbers'] = pd.to_numeric(df['staff_numbers'], errors='coerce')
+        df.dropna(subset=['staff_numbers'], inplace=True)
+
+        #check data time types - remove rows that dont comply
+        df['opening_date'] = pd.to_datetime(df['opening_date'], format='%Y-%m-%d', errors='coerce')
+
+        #drop column with all none value (lat)
+        df.replace('N/A', np.nan, inplace=True)
+        df.dropna(axis=1, how='all', inplace=True)
+
+        #drop rows with n/a - web stores
+        # columns_to_check = ['address', 'longitude', 'locality']
+        # df.dropna(subset=columns_to_check, how='any', inplace=True)
+
+
+        #convert date values to dates
+        return df
+          

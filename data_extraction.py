@@ -30,6 +30,26 @@ class DataExtractor():
         else:
              # Handle errors or unsuccessful responses here
             return "Error: " + str(response.status_code)
+        
+    def retrieve_stores_data(self, endpoint, header, number_stores):
+        data_frames = []
+        for i in range(number_stores):
+            try:
+                response = requests.get(f'{endpoint}{i}', headers=header)
+                if response.status_code == 200:
+                    response = response.json()
+                    print(f'{i}/{number_stores} loaded')
+                    print(response)
+                    data_frames.append(pd.DataFrame([response]))
+                else:
+                    return f"Error: Received response with status code {response.status_code}"
+
+            except requests.exceptions.RequestException as e:
+                return f"Request Error: {e}"
+            
+        combined_df = pd.concat(data_frames, ignore_index=True)
+        return combined_df
+        
                 
        
 # DataExtractor().read_rds_table('legacy_users')

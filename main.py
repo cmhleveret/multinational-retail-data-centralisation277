@@ -22,4 +22,15 @@ header = {'x-api-key' : 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
 endpoint = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
 number_stores = DataExtractor().list_number_of_stores(endpoint, header)
 
-print(number_stores)
+#print(number_stores)
+
+endpoint = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/'
+store_data = DataExtractor().retrieve_stores_data(endpoint, header, number_stores)
+print(store_data)
+
+clean_store_data = DataCleaning().clean_store_data(store_data)
+print(clean_store_data)
+
+# DatabaseConnector().upload_to_db(clean_store_data, 'dim_store_details')
+
+ 
