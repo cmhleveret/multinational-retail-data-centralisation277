@@ -8,7 +8,7 @@ class DatabaseConnector():
             self.db_creds = yaml.safe_load(file)
         with open('local_db_creds.yaml', 'r') as file:
             self.local_db_creds = yaml.safe_load(file)
-
+        self.init_db_engine()
         print('Database Connector init')
 
     def init_db_engine(self):

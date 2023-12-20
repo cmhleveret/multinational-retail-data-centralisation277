@@ -115,4 +115,11 @@ class DataCleaning():
         df.dropna(axis=1, how='all', inplace=True)
         df.dropna(axis=1, how='any', inplace=True)
         return df
+    
+    def clean_orders_data(self, df):
+        df.drop(['first_name', 'last_name', '1', 'level_0'], axis=1, inplace=True)
+
+        if 'level_0' in df.columns:
+            df.rename(columns={'level_0': 'level_0_index'}, inplace=True)
+        return df
           

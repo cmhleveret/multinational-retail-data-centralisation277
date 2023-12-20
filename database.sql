@@ -1,1 +1,1 @@
-SELECT * FROM dim_products
+SELECT * FROM orders_table
