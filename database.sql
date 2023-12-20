@@ -1,1 +1,1 @@
-SELECT * FROM orders_table
+SELECT * FROM dim_date_times

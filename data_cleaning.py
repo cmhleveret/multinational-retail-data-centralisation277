@@ -121,5 +121,22 @@ class DataCleaning():
 
         if 'level_0' in df.columns:
             df.rename(columns={'level_0': 'level_0_index'}, inplace=True)
+        
         return df
+    
+    def clean_dim_date_times(self, df):
+        df.dropna(axis=1, how='any', inplace=True)
+        df.dropna(axis=0, how='all', inplace=True)
+
+        df['datetime_string'] = df['year'].astype(str) + '-' + \
+                        df['month'].astype(str).str.zfill(2) + '-' + \
+                        df['day'].astype(str).str.zfill(2) + ' ' + \
+                        df['timestamp']
+        
+        df['date_time'] = pd.to_datetime(df['datetime_string'], format='%Y-%m-%d %H:%M:%S', errors='coerce')
+        
+        df.drop('datetime_string', axis=1, inplace=True)
+
+        return df
+        
           

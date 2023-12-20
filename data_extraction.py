@@ -6,6 +6,7 @@ import requests
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 import io
+import json
 
 class DataExtractor():
     def __init__(self):
@@ -69,7 +70,10 @@ class DataExtractor():
             else:
                 print("An error occurred:", e)
 
-        
+        return df
+    
+    def extract_from_json(self, link):
+        df = pd.read_json(link)
         return df
         
                 
