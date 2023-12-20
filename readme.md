@@ -30,14 +30,96 @@ Example usage:
 ```python
 from data_cleaning import DataCleaning
 from data_extraction import DataExtractor
+from database_utils import DatabaseConnector
 ```
-# Extract data
-extractor = DataExtractor()
-data = extractor.read_rds_table('table_name')
 
-# Clean data
+## Database Connectivity
+
+### `DatabaseConnector` Class
+
+The `DatabaseConnector` class, defined in `database_utils.py`, is responsible for handling database connections and operations. It uses `yaml` to load database credentials and `sqlalchemy` to establish connections and perform database operations.
+
+Key functionalities include:
+- **Initializing Database Connection**: Establishes a connection to the database using credentials stored in `db_creds.yaml` and `local_db_creds.yaml`.
+- **Listing Database Tables**: The `list_db_tables` method retrieves and lists all tables in the connected database.
+- **Uploading Data to Database**: The `upload_to_db` method allows uploading a DataFrame to a specified table in the database, replacing the table if it already exists.
+
+Example usage:
+```python
+from database_utils import DatabaseConnector
+from data_cleaning import DataCleaning
+
+# Initialize database connector
+db = DatabaseConnector()
+
+# List available tables in the database
+tables = db.list_db_tables()
+print(tables)
+
+# Example of using DataCleaning and uploading cleaned data
+# cleaned_data = DataCleaning().clean_user_data(your_dataframe)
+# db.upload_to_db(cleaned_data, 'target_table_name')
+```
+
+## Data Extraction
+
+### `DataExtractor` Class
+
+The `DataExtractor` class, part of `data_extraction.py`, manages the extraction of data from various sources. It leverages the `DatabaseConnector` for database operations and other libraries for handling different data formats.
+
+Key functionalities include:
+- **Reading from RDS Tables**: The `read_rds_table` method connects to an RDS database to retrieve data from a specified table.
+- **Extracting PDF Data**: `retrieve_pdf_data` extracts data from a PDF file using the link provided.
+- **API Data Retrieval**: Methods like `list_number_of_stores` and `retrieve_stores_data` handle data extraction from RESTful APIs.
+- **AWS S3 Data Extraction**: The `extract_from_s3` method pulls data from an AWS S3 bucket.
+- **JSON Data Extraction**: `extract_from_json` retrieves data from a JSON file via a provided link.
+
+Example usage:
+```python
+from data_extraction import DataExtractor
+
+extractor = DataExtractor()
+
+# Example of reading data from RDS
+rds_data = extractor.read_rds_table('table_name')
+
+# Example of extracting data from a PDF file
+pdf_data = extractor.retrieve_pdf_data('http://link_to_pdf')
+
+# Example of extracting data from an S3 bucket
+s3_data = extractor.extract_from_s3()
+```
+## Data Cleaning
+
+### `DataCleaning` Class
+
+The `DataCleaning` class, defined in `data_cleaning.py`, is crucial for preparing and sanitizing data for further analysis and storage. This class includes various methods for cleaning different types of data.
+
+Key functionalities include:
+- **Cleaning User Data**: The `clean_user_data` method refines user data, like reformatting phone numbers and handling null values.
+- **Cleaning Card Data**: `clean_card_data` processes card-related data, consolidating data frames and removing null values.
+- **Cleaning Store Data**: The `clean_store_data` method deals with store-related information, including staff numbers and opening dates.
+- **Converting Product Weights**: `convert_product_weights` converts product weight information into a consistent format.
+- **Cleaning Products Data**: The `clean_products_data` method standardizes product information.
+- **Cleaning Orders Data**: `clean_orders_data` refines order-related data by removing unnecessary columns.
+- **Cleaning Date and Time Data**: The `clean_dim_date_times` method standardizes date and time information into a consistent format.
+
+Example usage:
+```python
+from data_extraction import DataExtractor
+from data_cleaning import DataCleaning
+
+# Assuming data extraction is already done
+extractor = DataExtractor()
+raw_data = extractor.read_rds_table('table_name')
+
+# Initialize data cleaner
 cleaner = DataCleaning()
-clean_data = cleaner.clean_user_data(data)
+
+# Clean the extracted data
+clean_data = cleaner.clean_user_data(raw_data)
+```
+
 
 ## File Structure
 
