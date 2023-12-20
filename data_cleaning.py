@@ -18,12 +18,13 @@ class DataCleaning():
                                                          r'\.': ''}, regex=True)
         #remove 00 at start of numbers afer +44 removed
         df['phone_number'] = df['phone_number'].replace({r'^00': '0'}, regex=True)
+
         #remove phone numbers with less than 10 digits
         ##use .loc to prevent copy errors
         df = df.loc[df['phone_number'].str.len() >= 10]
+
         #remove UK phone numbers with less than 11 digits
         condition = (df['country_code'].str.lower() == 'gb') & (df['phone_number'].str.len() < 11)
-       
         #the ~ operator negates the condition,
         df = df[~condition]
 
@@ -70,11 +71,48 @@ class DataCleaning():
         df.replace('N/A', np.nan, inplace=True)
         df.dropna(axis=1, how='all', inplace=True)
 
+        #validate continent names
+        # valid_continents = ["Europe", "Asia", "Africa", "North America", "South America", "Australia", "Antarctica"]
+        # df.loc[~df['continent'].isin(valid_continents), 'continent'] = np.nan
+        # or could use fuzzywuzzy?
+
         #drop rows with n/a - web stores
         # columns_to_check = ['address', 'longitude', 'locality']
         # df.dropna(subset=columns_to_check, how='any', inplace=True)
 
-
         #convert date values to dates
+        return df
+    
+    def convert_product_weights(self, df):
+        #clean the weight column i.e to lower
+        df['weight'] = df['weight'].str.lower()
+        df.dropna(axis=0, how='any', inplace=True)
+        
+        #create new column with weight as float 
+        df['weight_kg'] = df['weight'].replace({r'kg': '',
+                                                r'g': ''},  
+                                                regex=True)
+        #drop rows that dont have a number in this column
+        # Example regex for floating-point numbers
+        regex_expression = r'^\d+(\.\d+)?$'
+        df.loc[~df['weight_kg'].str.match(regex_expression), 'weight_kg'] = np.nan 
+
+        df.dropna(axis=0, inplace=True) 
+        df = df.astype({'weight_kg': float})
+
+        #convert all values to KG 
+        df.loc[~df['weight'].str.endswith('kg'), 'weight_kg'] = df['weight_kg']/1000
+
+        #convert all values to ml 
+        df['estimated_vol_ml'] = df['weight_kg'] * 1000
+
+        return df
+    
+    def clean_products_data(self, df):
+        df['date_added'] = pd.to_datetime(df['date_added'], format='%Y-%m-%d', errors='coerce')
+
+        df = df.astype({'product_name': str, 'product_price': str, 'weight': str, 'category': str, 'EAN': str, 'uuid': str,'removed': str, 'product_code': str})
+        df.dropna(axis=1, how='all', inplace=True)
+        df.dropna(axis=1, how='any', inplace=True)
         return df
           
