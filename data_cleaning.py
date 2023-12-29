@@ -52,7 +52,12 @@ class DataCleaning():
         # Drop rows where 'card_number' is null
         combined_df = combined_df.dropna(subset=[combined_df.columns[1]])
         combined_df = combined_df.dropna(axis=1, how='all')
+        combined_df = combined_df.dropna(axis=0, how='any')
+        print(combined_df)
         # 
+        combined_df['date_payment_confirmed'] = pd.to_datetime(combined_df['date_payment_confirmed'], format='%Y-%m-%d', errors='coerce')
+        combined_df = combined_df.dropna(subset=['date_payment_confirmed'])
+        print(combined_df)
         return combined_df
     
     def clean_store_data(self, df):

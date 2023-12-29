@@ -13,9 +13,9 @@ import pandas as pd
 # DatabaseConnector().upload_to_db(clean_data, 'dim_users')
 
 #Task 4
-# data = DataExtractor().retrieve_pdf_data("https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf")
-# clean_data = DataCleaning().clean_card_data(data)
-# DatabaseConnector().upload_to_db(clean_data, 'dim_card_details')
+data = DataExtractor().retrieve_pdf_data("https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf")
+clean_data = DataCleaning().clean_card_data(data)
+DatabaseConnector().upload_to_db(clean_data, 'dim_card_details')
 
 #Task 5
 # header = {'x-api-key' : 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
@@ -32,15 +32,15 @@ import pandas as pd
 # DatabaseConnector().upload_to_db(clean_store_data, 'dim_store_details')
 
 #Task 6
-products_df = DataExtractor().extract_from_s3()
-converted_product_weights = DataCleaning().convert_product_weights(products_df)
-print("----------------------------convert weights")
-print(converted_product_weights.dtypes)
+# products_df = DataExtractor().extract_from_s3()
+# converted_product_weights = DataCleaning().convert_product_weights(products_df)
+# print("----------------------------convert weights")
+# print(converted_product_weights.dtypes)
 
-cleaned_coverted_product_data = DataCleaning().clean_products_data(converted_product_weights)
-print("----------------------------last weights")
-print(cleaned_coverted_product_data)
-DatabaseConnector().upload_to_db(cleaned_coverted_product_data, 'dim_products')
+# cleaned_coverted_product_data = DataCleaning().clean_products_data(converted_product_weights)
+# print("----------------------------last weights")
+# print(cleaned_coverted_product_data)
+# DatabaseConnector().upload_to_db(cleaned_coverted_product_data, 'dim_products')
 
 
 #Task 7
