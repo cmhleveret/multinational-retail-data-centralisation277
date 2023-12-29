@@ -32,13 +32,15 @@ import pandas as pd
 # DatabaseConnector().upload_to_db(clean_store_data, 'dim_store_details')
 
 #Task 6
-# products_df = DataExtractor().extract_from_s3()
-# converted_product_weights = DataCleaning().convert_product_weights(products_df)
-# print(converted_product_weights.dtypes)
+products_df = DataExtractor().extract_from_s3()
+converted_product_weights = DataCleaning().convert_product_weights(products_df)
+print("----------------------------convert weights")
+print(converted_product_weights.dtypes)
 
-# cleaned_coverted_product_data = DataCleaning().clean_products_data(converted_product_weights)
-# print(cleaned_coverted_product_data)
-# DatabaseConnector().upload_to_db(cleaned_coverted_product_data, 'dim_products')
+cleaned_coverted_product_data = DataCleaning().clean_products_data(converted_product_weights)
+print("----------------------------last weights")
+print(cleaned_coverted_product_data)
+DatabaseConnector().upload_to_db(cleaned_coverted_product_data, 'dim_products')
 
 
 #Task 7
@@ -65,8 +67,8 @@ import pandas as pd
 # tables = DatabaseConnector().list_db_tables()
 # print(tables)
 
-df = DataExtractor().read_rds_table('orders_table')
-print(df)
-cleaned_df = DataCleaning().clean_orders_data(df)
-print(cleaned_df)
-print(cleaned_df.dtypes)
+# df = DataExtractor().read_rds_table('orders_table')
+# print(df)
+# cleaned_df = DataCleaning().clean_orders_data(df)
+# print(cleaned_df)
+# print(cleaned_df.dtypes)

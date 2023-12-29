@@ -33,3 +33,11 @@ SELECT * FROM dim_products
 --     WHEN weight_kg >= 140 THEN 'Truck_Required'
 --     ELSE weight_class -- Keeps the current value if none of the above conditions are met
 -- END;
+
+-- DO $$
+-- DECLARE
+--     max_length INT;
+-- BEGIN
+--     SELECT INTO max_length MAX(LENGTH(CAST(weight_class AS TEXT))) FROM dim_products;
+--     EXECUTE 'ALTER TABLE dim_products ALTER COLUMN weight_class TYPE VARCHAR(' || max_length || ')';
+-- END $$;

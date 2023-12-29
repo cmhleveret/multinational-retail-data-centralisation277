@@ -110,10 +110,16 @@ class DataCleaning():
     
     def clean_products_data(self, df):
         df['date_added'] = pd.to_datetime(df['date_added'], format='%Y-%m-%d', errors='coerce')
+        print('date?')
+        print(df.dtypes)
 
         df = df.astype({'product_name': str, 'product_price': str, 'weight': str, 'category': str, 'EAN': str, 'uuid': str,'removed': str, 'product_code': str})
+        print('drop1')
         df.dropna(axis=1, how='all', inplace=True)
-        df.dropna(axis=1, how='any', inplace=True)
+        print(df.dtypes)
+        print('drop2')
+        df.dropna(axis=0, how='any', inplace=True)
+        print(df.dtypes)
         return df
     
     def clean_orders_data(self, df):
