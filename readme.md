@@ -14,8 +14,8 @@ This project is focused on data extraction, cleaning, and database management. I
 ## Installation
 To get started with this project, clone the repository and install the required dependencies:
 ```bash
-git clone [Your Repository URL]
-cd [Your Repository Name]
+git clone ThisRepo
+cd ThisRepo
 pip install -r requirements.txt
 ```
 ## Usage

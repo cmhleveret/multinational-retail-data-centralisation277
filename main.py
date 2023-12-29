@@ -54,9 +54,19 @@ import pandas as pd
 # DatabaseConnector().upload_to_db(cleaned_df, 'orders_table')
 
 #Task 8
-link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
-df = DataExtractor().extract_from_json(link)
-cleaned_df = DataCleaning().clean_dim_date_times(df)
-print(cleaned_df.dtypes)
+# link = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
+# df = DataExtractor().extract_from_json(link)
+# cleaned_df = DataCleaning().clean_dim_date_times(df)
+# print(cleaned_df.dtypes)
 
-DatabaseConnector().upload_to_db(cleaned_df, 'dim_date_times')
+# DatabaseConnector().upload_to_db(cleaned_df, 'dim_date_times')
+
+#Task 9 
+# tables = DatabaseConnector().list_db_tables()
+# print(tables)
+
+df = DataExtractor().read_rds_table('orders_table')
+print(df)
+cleaned_df = DataCleaning().clean_orders_data(df)
+print(cleaned_df)
+print(cleaned_df.dtypes)
