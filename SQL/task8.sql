@@ -1,3 +1,4 @@
+--ADDING PRIMARY KEYS
 -- SELECT * FROM orders_table
 
 --update dim users with primary key
