@@ -120,13 +120,48 @@ cleaner = DataCleaning()
 clean_data = cleaner.clean_user_data(raw_data)
 ```
 
-
 ## File Structure
 
 - `data_extraction.py`: Contains the `DataExtractor` class for data extraction from various sources.
 - `data_cleaning.py`: Houses the `DataCleaning` class for cleaning and preparing data.
 - `database_utils.py`: Includes the `DatabaseConnector` class for database connection and operations.
 - Additional utility scripts and configuration files.
+
+
+# SQL 
+## Database Schema Modification and Integrity
+
+This project also includes comprehensive steps for modifying database schemas, ensuring data integrity, and establishing relational links between tables. These operations are crucial for maintaining a robust and reliable database structure.
+
+### Schema Modifications
+
+The SQL scripts provided cover a range of schema alterations, including changing column data types, adding new columns, and deleting unnecessary ones. Key modifications include:
+
+- **Altering Column Data Types**: Various tables have their column data types altered to better suit the data they hold. This includes changing columns to types such as `VARCHAR`, `SMALLINT`, `FLOAT`, and `UUID`.
+  
+- **Dynamic Column Type Alteration**: Some columns are altered based on dynamic criteria, such as setting the column type length to the maximum length of existing data.
+
+- **Data Cleaning and Standardization**: Certain columns are updated for consistency, such as removing specific characters from text fields and converting data into a uniform format.
+
+### Establishing Primary Keys
+
+Primary keys are added to various dimension tables (`dim_*`) to ensure each record can be uniquely identified. This process involves:
+
+- **Checking for Uniqueness and Null Values**: Before adding primary keys, we ensure that the candidate columns contain unique, non-null values.
+
+- **Primary Key Addition**: Primary keys are added to tables like `dim_users`, `dim_store_details`, `dim_products`, `dim_date_times`, and `dim_card_details`.
+
+### Adding Foreign Keys to `orders_table`
+
+Foreign keys are added to the `orders_table` to establish relationships with the dimension tables. This ensures referential integrity and links records across tables. The process involves:
+
+- **Identifying and Handling Non-Existent Values**: Before setting up foreign keys, we identify and resolve any non-existent values in the foreign key columns.
+
+- **Deleting Inconsistent Records**: In some cases, records with non-matching foreign key values are deleted from `orders_table`.
+
+- **Setting Foreign Keys**: Foreign key constraints are added to `orders_table`, linking it to the respective dimension tables based on keys like `card_number`, `date_uuid`, `product_code`, `store_code`, and `user_uuid`.
+
+This section of the project plays a vital role in ensuring the database's integrity and the accuracy of relationships between different data entities.
 
 ## License
 
