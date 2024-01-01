@@ -13,9 +13,9 @@ import pandas as pd
 # DatabaseConnector().upload_to_db(clean_data, 'dim_users')
 
 #Task 4
-data = DataExtractor().retrieve_pdf_data("https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf")
-clean_data = DataCleaning().clean_card_data(data)
-DatabaseConnector().upload_to_db(clean_data, 'dim_card_details')
+# data = DataExtractor().retrieve_pdf_data("https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf")
+# clean_data = DataCleaning().clean_card_data(data)
+# DatabaseConnector().upload_to_db(clean_data, 'dim_card_details')
 
 #Task 5
 # header = {'x-api-key' : 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
@@ -49,8 +49,8 @@ DatabaseConnector().upload_to_db(clean_data, 'dim_card_details')
 # tables = DatabaseConnector().list_db_tables()
 # print(tables)
 
-# df = DataExtractor().read_rds_table('orders_table')
-# print(df)
+df = DataExtractor().read_rds_table('orders_table')
+print(df)
 # cleaned_df = DataCleaning().clean_orders_data(df)
 # print(cleaned_df)
 # DatabaseConnector().upload_to_db(cleaned_df, 'orders_table')
