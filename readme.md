@@ -163,6 +163,29 @@ Foreign keys are added to the `orders_table` to establish relationships with the
 
 This section of the project plays a vital role in ensuring the database's integrity and the accuracy of relationships between different data entities.
 
+## SQL Commands Functionality
+
+### Basic Commands
+- `SELECT * from dim_store_details`: Retrieves all records from the dim_store_details table.
+
+### Data Correction Commands
+- Fix continent naming errors in the dim_store_details table:
+  - `UPDATE dim_store_details SET continent = 'Europe' WHERE continent LIKE 'eeE%'`
+  - `UPDATE dim_store_details SET continent = 'America' WHERE continent LIKE 'eeA%'`
+
+### Aggregation and Grouping
+- `SELECT country_code, COUNT(country_code) AS total_number_country_code FROM dim_store_details GROUP BY country_code ORDER BY total_number_country_code DESC LIMIT 5`: Lists the top 5 countries based on the number of store entries.
+- `SELECT locality, COUNT(locality) AS total_number_locality FROM dim_store_details GROUP BY locality ORDER BY total_number_locality DESC LIMIT 10`: Lists the top 10 localities based on the number of store entries.
+
+### Advanced Analysis
+- Monthly Sales and Product Quantities: Computes total sales and product quantities per month by joining orders_table with dim_date_times.
+- Sales by Location Type: Differentiates between online ('Web') and offline ('Offline') sales based on store_type.
+- Store Sales Percentage: Calculates the percentage of total sales for each store type.
+- Yearly and Monthly Total Order Value: Calculates the sum of total order prices for each month and year.
+- Total Staff Numbers by Country: Sums up the number of staff for each country.
+- Total Order Value by Store Type in Germany: Calculates the total order price for stores in Germany, grouped by store type.
+- Average Time Between Sales: Calculates the average time between sales for each year.
+
 ## License
 
 This project is licensed under the [Your License Name] License. See the LICENSE file for more details.
